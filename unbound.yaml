@@ -1,15 +1,9 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: unbound-demo
----
-apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
     app: unbound
   name: unbound
-  namespace: unbound-demo
+  namespace: pihole
 spec:
   replicas: 2
   selector:
@@ -39,7 +33,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: unbound-udp
-  namespace: unbound-demo
+  namespace: pihole
   annotations:
     metallb.universe.tf/allow-shared-ip: dns
 spec:
@@ -51,13 +45,13 @@ spec:
     name: dnsudp
     targetPort: 53
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.162
+  loadBalancerIP: 192.168.1.66
 ---
 kind: Service
 apiVersion: v1
 metadata:
   name: unbound-tcp
-  namespace: unbound-demo
+  namespace: pihole
   annotations:
     metallb.universe.tf/allow-shared-ip: dns
 spec:
@@ -69,4 +63,4 @@ spec:
     name: dnstcp
     targetPort: 53
   type: LoadBalancer
-  loadBalancerIP: 192.168.1.162
+  loadBalancerIP: 192.168.1.66
